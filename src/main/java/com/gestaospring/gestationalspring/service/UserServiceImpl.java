@@ -3,13 +3,14 @@ package com.gestaospring.gestationalspring.service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.gestaospring.gestationalspring.domain.Gasto;
 import com.gestaospring.gestationalspring.domain.User;
+import com.gestaospring.gestationalspring.interfaces.JwtService;
 import com.gestaospring.gestationalspring.interfaces.UserService;
+import com.gestaospring.gestationalspring.repositories.GastoRepository;
 import com.gestaospring.gestationalspring.repositories.JdbcUserRepository;
 import com.gestaospring.gestationalspring.repositories.UserRepository;
 
@@ -19,11 +20,12 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 private final UserRepository repository;
 private final JdbcUserRepository jdbcUserRepository;
-    
+private final GastoRepository gastoRepository;
+    private final JwtService jwt;
 @Override
     public BigDecimal getTotalGastos(User user) {
 
-        return user.getGastos().stream().map(gasto -> gasto.getValor()).reduce(BigDecimal.ZERO, BigDecimal::add);  
+        return null;
         
     }
     @Override
@@ -31,14 +33,17 @@ private final JdbcUserRepository jdbcUserRepository;
 return Optional.ofNullable( repository.findByEmail(email)).orElseThrow(() -> new RuntimeException("User not found"));
  }
     @Override
-    public Gasto addGasto(Gasto gasto) {
-        User user = gasto.getUser();
- repository.save(user);
+    public Gasto addGasto(Gasto gasto, String token) {
+        var use = jdbcUserRepository.findByEmail(jwt.getEmail(token)).orElseThrow();
+        gasto.setUserId(use.getId());
+       use.getGastosID().add(gasto.getId());
+ repository.save(use);
+ gastoRepository.save(gasto);
  return gasto;
     }
     @Override
     public Gasto getGastoById(Long id) {
-        return repository.findById(id).map(User::getGastos).stream().collect(Collectors.toList()).get(0).get(0);
+        return null;
     }
     @Override
     public List<Gasto> getGastoByExample(Gasto gasto) {

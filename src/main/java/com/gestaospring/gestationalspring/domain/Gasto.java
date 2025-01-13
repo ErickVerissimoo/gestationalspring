@@ -14,5 +14,5 @@ public class Gasto {
 private String descricao;
 private BigDecimal valor;
 private LocalDate data; 
-private User user;
+private Long userId;
 }

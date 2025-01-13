@@ -13,5 +13,5 @@ public class User {
     private String email;
 @Id private Long id;
  private String nome;
-private List<Gasto> gastos;
+private List<Long> gastosID;
 }

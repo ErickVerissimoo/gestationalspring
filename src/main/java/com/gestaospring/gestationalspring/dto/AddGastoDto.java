@@ -13,6 +13,5 @@ public class AddGastoDto {
 private String descricao;
 private Double valor;
 private LocalDate data;
-@JsonIgnore(true)
-private UserDto dto;
+private Long userId;
 }

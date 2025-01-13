@@ -9,7 +9,7 @@ import com.gestaospring.gestationalspring.domain.User;
 public interface UserService {
     BigDecimal getTotalGastos(User user);
 User getUserByEmail(String email);
-Gasto addGasto(Gasto gasto);
+Gasto addGasto(Gasto gasto, String token);
 Gasto getGastoById(Long id);
 List<Gasto> getGastoByExample(Gasto gasto);
 List<Gasto> getGastoAboveValue(BigDecimal value);

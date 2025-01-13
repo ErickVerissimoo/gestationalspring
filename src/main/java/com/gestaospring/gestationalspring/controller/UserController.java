@@ -21,7 +21,7 @@ private final UserService   userService;
 
 @PostMapping
 public ResponseEntity<Map<String, String>> addGasto(@RequestBody Gasto gasto, @CookieValue(value = "Bearer", defaultValue = "not cookie founded") String token) {
-    userService.addGasto(gasto);
+    userService.addGasto(gasto, token);
     
     return ResponseEntity.ok(Map.of("message", "Gasto adicionado com sucesso"));
 }}

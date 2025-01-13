@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS gasto (
 
 INSERT INTO users (nome, email, password) VALUES 
 ('User1', 'user1@example.com', 'password1'),
-('User2', 'user2@example.com', 'password2'),
 ('User3', 'user3@example.com', 'password3'),
 ('User4', 'user4@example.com', 'password4'),
 ('User5', 'user5@example.com', 'password5'),
