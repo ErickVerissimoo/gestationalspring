@@ -1,7 +1,5 @@
 package com.gestaospring.gestationalspring.config;
 
-import java.util.Optional;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.gestaospring.gestationalspring.exception.EntityNotFoundException;
 import com.gestaospring.gestationalspring.filter.JwtFilterAuthentication;
 import com.gestaospring.gestationalspring.interfaces.JwtService;
 import com.gestaospring.gestationalspring.repositories.JdbcUserRepository;
@@ -56,7 +53,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return email ->Optional.ofNullable( repository.findByEmail(email)).map(c -> User.withUsername(c.getEmail()).password(c.getPassword()).build()).orElseThrow(EntityNotFoundException::new);
+        return email ->repository.findByEmail(email).map(c -> User.withUsername(c.getEmail()).password(c.getPassword()).build()).orElseThrow();
             
     }
 }

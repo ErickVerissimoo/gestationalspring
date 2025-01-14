@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 import org.springframework.data.annotation.Immutable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 @Immutable
 @Data

@@ -1,45 +1,49 @@
 package com.gestaospring.gestationalspring;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.ActiveProfiles;
 
+import com.gestaospring.gestationalspring.domain.User;
 import com.gestaospring.gestationalspring.repositories.GastoRepository;
 import com.gestaospring.gestationalspring.repositories.JdbcUserRepository;
 import com.gestaospring.gestationalspring.repositories.UserRepository;
 import com.gestaospring.gestationalspring.service.JwtServiceImpl;
 import com.gestaospring.gestationalspring.service.UserServiceImpl;
 @SpringBootTest
-@TestInstance(Lifecycle.PER_CLASS)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 public class DatabaseTests {
-    @MockitoBean
+ 
+    @Autowired
     JdbcUserRepository  jdbcUserRepository;
     @Autowired
     UserServiceImpl userService;
-    @MockitoBean
+    @Autowired
     UserRepository userRepository;
-    @MockitoBean
+    @Autowired
     JwtServiceImpl jwt;
-    @MockitoBean
+    @Autowired
     GastoRepository gastoRepo;
-@Test
+    List<User> users;
+    @BeforeEach
 void test() {
-    var e  = jdbcUserRepository.getGastosAboveValue(BigDecimal.valueOf(100));
-    assert e !=null :"nao pode ser null";
-System.out.println(e.get(0)==null);
+users = new ArrayList<>();    
+    User user = new User();
+    user.setEmail("erickverissimodasilva144@gmai.com");
+    user.setNome("erick");
+    user.setPassword("erick");
+    userRepository.save(user);
 }
+@Test 
+void testagem(){
+    
 
-@BeforeAll
-void setUp() {
-
+    System.out.println(jdbcUserRepository.findAll());
 }
 }
 

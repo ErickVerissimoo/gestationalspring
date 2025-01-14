@@ -35,8 +35,8 @@ return Optional.ofNullable( repository.findByEmail(email)).orElseThrow(() -> new
     @Override
     public Gasto addGasto(Gasto gasto, String token) {
         var use = jdbcUserRepository.findByEmail(jwt.getEmail(token)).orElseThrow();
-        gasto.setUserId(use.getId());
-       use.getGastosID().add(gasto.getId());
+        gasto.setUser_id(use.getId());
+       use.getGastosID().add(gasto);
  repository.save(use);
  gastoRepository.save(gasto);
  return gasto;

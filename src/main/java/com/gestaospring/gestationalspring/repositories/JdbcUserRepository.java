@@ -21,20 +21,21 @@ public class JdbcUserRepository {
 
     private static final RowMapper<Gasto> GASTO_ROW_MAPPER = (rs, rowNum) -> {
         Gasto gasto = new Gasto();
-        gasto.setId(rs.getLong("id"));
-        gasto.setDescricao(rs.getString("descricao"));
-        gasto.setValor(rs.getBigDecimal("valor"));
-        gasto.setData(rs.getDate("data").toLocalDate());
-        gasto.setUserId(rs.getLong("user_id"));
+        gasto.setId(rs.getLong("ID"));
+        gasto.setDescricao(rs.getString("DESCRICAO"));
+        gasto.setValor(rs.getBigDecimal("VALOR"));
+        gasto.setData(rs.getDate("DATA").toLocalDate());
+        gasto.setUser_id(rs.getLong("USER_ID"));
+        
         return gasto;
     };
 
     private static final RowMapper<User> USER_ROW_MAPPER = (rs, rowNum) -> {
         User user = new User();
-        user.setId(rs.getLong("id"));
-        user.setNome(rs.getString("nome"));
-        user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password"));
+        user.setId(rs.getLong("ID"));
+        user.setNome(rs.getString("NOME"));
+        user.setEmail(rs.getString("EMAIL"));
+        user.setPassword(rs.getString("PASSWORD"));
         return user;
     };
 
@@ -66,5 +67,8 @@ public class JdbcUserRepository {
     public Optional<User> findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         return jdbcClient.sql(sql).param(email).query(USER_ROW_MAPPER).optional();
+    }
+    public List<User> findAll(){
+        return jdbcClient.sql("SELECT * FROM USERS").query(USER_ROW_MAPPER).list();
     }
 }
