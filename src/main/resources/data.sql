@@ -1,3 +1,5 @@
+
+
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -10,6 +12,6 @@ CREATE TABLE IF NOT EXISTS expense (
     description VARCHAR(255) NOT NULL,
     value DECIMAL(10, 2) NOT NULL,
     date DATE NOT NULL,
-    user_id BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    users_id BIGINT,
+    FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE
 );
