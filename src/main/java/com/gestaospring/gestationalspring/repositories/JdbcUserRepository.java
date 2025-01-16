@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
-import com.gestaospring.gestationalspring.domain.Gasto;
+import com.gestaospring.gestationalspring.domain.Expense;
 import com.gestaospring.gestationalspring.domain.User;
 
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,12 @@ public class JdbcUserRepository {
 
     private final JdbcClient jdbcClient;
 
-    private static final RowMapper<Gasto> GASTO_ROW_MAPPER = (rs, rowNum) -> {
-        Gasto gasto = new Gasto();
+    private static final RowMapper<Expense> GASTO_ROW_MAPPER = (rs, rowNum) -> {
+        Expense gasto = new Expense();
         gasto.setId(rs.getLong("ID"));
-        gasto.setDescricao(rs.getString("DESCRICAO"));
-        gasto.setValor(rs.getBigDecimal("VALOR"));
-        gasto.setData(rs.getDate("DATA").toLocalDate());
-        gasto.setUser_id(rs.getLong("USER_ID"));
+        gasto.setDescription(rs.getString("DESCRICAO"));
+        gasto.setValue(rs.getDouble("VALOR"));
+        gasto.setDate(rs.getDate("DATA").toLocalDate());
         
         return gasto;
     };
@@ -33,33 +32,33 @@ public class JdbcUserRepository {
     private static final RowMapper<User> USER_ROW_MAPPER = (rs, rowNum) -> {
         User user = new User();
         user.setId(rs.getLong("ID"));
-        user.setNome(rs.getString("NOME"));
+        user.setName(rs.getString("NOME"));
         user.setEmail(rs.getString("EMAIL"));
         user.setPassword(rs.getString("PASSWORD"));
         return user;
     };
 
-    public List<Gasto> getGastosBelowValue(BigDecimal value) {
+    public List<Expense> getGastosBelowValue(BigDecimal value) {
         String sql = "SELECT * FROM gasto WHERE valor < ?";
         return jdbcClient.sql(sql).param(value).query(GASTO_ROW_MAPPER).list();
     }
 
-    public List<Gasto> getGastosAboveValue(BigDecimal value) {
+    public List<Expense> getGastosAboveValue(BigDecimal value) {
         String sql = "SELECT * FROM gasto WHERE valor > ?";
         return jdbcClient.sql(sql).param(value).query(GASTO_ROW_MAPPER).list();
     }
 
-    public List<Gasto> getGastosByValue(BigDecimal value) {
+    public List<Expense> getGastosByValue(BigDecimal value) {
         String sql = "SELECT * FROM gasto WHERE valor = ?";
         return jdbcClient.sql(sql).param(value).query(GASTO_ROW_MAPPER).list();
     }
 
-    public List<Gasto> getGastosByExample(Gasto gasto) {
+    public List<Expense> getGastosByExample(Expense gasto) {
         String sql = "SELECT * FROM gasto WHERE descricao LIKE ? AND valor = ?";
         return jdbcClient
                 .sql(sql)
-                .param("%" + gasto.getDescricao() + "%")
-                .param(gasto.getValor())
+                .param("%" + gasto.getDescription() + "%")
+                .param(gasto.getValue())
                 .query(GASTO_ROW_MAPPER)
                 .list();
     }
@@ -69,6 +68,6 @@ public class JdbcUserRepository {
         return jdbcClient.sql(sql).param(email).query(USER_ROW_MAPPER).optional();
     }
     public List<User> findAll(){
-        return jdbcClient.sql("SELECT * FROM USERS").query(USER_ROW_MAPPER).list();
+        return jdbcClient.sql("SELECT * FROM users").query(USER_ROW_MAPPER).list();
     }
 }

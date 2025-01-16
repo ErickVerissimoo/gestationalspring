@@ -10,6 +10,6 @@ import com.gestaospring.gestationalspring.domain.User;
 public interface UserRepository extends ListCrudRepository<User, Long> {
     User findByEmail(String email);
     boolean existsByEmail(String email);    
-    Optional<User> findByNome(String name);
+    Optional<User> findByName(String name);
 
 }

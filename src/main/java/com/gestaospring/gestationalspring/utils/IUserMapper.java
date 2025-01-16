@@ -11,12 +11,12 @@ import com.gestaospring.gestationalspring.dto.LoginDto;
 public interface IUserMapper {
     @Mapping(target = "email", source = "email")
     @Mapping(target = "password", source = "password")
-    @Mapping(target = "nome", source = "nome")
+    @Mapping(target = "name", source = "name")
 User toEntity(LoginDto dto);
 
 @Mapping(target = "email", source = "email")
 @Mapping(target = "password", source = "password")
-@Mapping(target = "nome", source = "nome")
+@Mapping(target = "name", source = "name")
 LoginDto toDto(User user);
 
 }

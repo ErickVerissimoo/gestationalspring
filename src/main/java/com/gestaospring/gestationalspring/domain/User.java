@@ -8,17 +8,18 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.Data;
+
 @Data
-@Table("USERS")
+@Table("users")
 public class User {
-    @Column("PASSWORD")
-    private String password;
-    @Column("EMAIL")
+    @Id
+    private Long id;
+
+    private String name;
+
     private String email;
-    @Column("ID")
-@Id private Long id;
-@Column("NOME")
- private String nome;
- @MappedCollection(idColumn = "userId")
-private List<Gasto> gastosID;
+
+    private String password;
+    @MappedCollection(idColumn = "user_id")
+    private List<Expense> expenses;
 }
