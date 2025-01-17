@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.gestaospring.gestationalspring.domain.User;
 @Repository
 public interface UserRepository extends ListCrudRepository<User, Long> {
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);    
     Optional<User> findByName(String name);
 

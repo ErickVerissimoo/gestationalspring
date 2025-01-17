@@ -2,7 +2,6 @@ package com.gestaospring.gestationalspring.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -30,12 +29,12 @@ private final GastoRepository gastoRepository;
     }
     @Override
  public User getUserByEmail(String email){
-return Optional.ofNullable( repository.findByEmail(email)).orElseThrow(() -> new RuntimeException("User not found"));
+return  repository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
  }
     @Override
     public Expense addGasto(Expense gasto, String token) {
         var use = jdbcUserRepository.findByEmail(jwt.getEmail(token)).orElseThrow();
-    //    use.getGastos().add(gasto);
+      use.getExpenses().add(gasto);
  repository.save(use);
  gastoRepository.save(gasto);
  return gasto;

@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.context.annotation.Import;
 
 import com.gestaospring.gestationalspring.domain.Expense;
 import com.gestaospring.gestationalspring.domain.User;
+import com.gestaospring.gestationalspring.repositories.JdbcUserRepository;
 import com.gestaospring.gestationalspring.repositories.UserRepository;
 @DataJdbcTest
+@Import(JdbcUserRepository.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class DatabaseTests {
  
@@ -21,7 +24,7 @@ public class DatabaseTests {
         
     @Autowired
     UserRepository userRepository;
-    
+    @Autowired JdbcUserRepository jdbc;
  
     List<User> users;
     @BeforeEach
@@ -32,13 +35,14 @@ void setup() {
     user.setPassword("user");
     var exp = new Expense();
     exp.setDate(LocalDate.now());
-    exp.setValue(22.2);
+    exp.setValue(22.3);
     exp.setDescription("some description");
     user.getExpenses().add(exp);
     userRepository.save(user);
 }
 @Test 
 void test(){
-    System.out.println(userRepository.findAll().stream().flatMap(c -> c.getExpenses().stream()).map(Expense::getValue).toList());
+    // [User(id=1, name=myUser, email=user144@gmai.com, password=user, expenses=[])]
+    System.out.println(userRepository.findAll());
 }
 }
