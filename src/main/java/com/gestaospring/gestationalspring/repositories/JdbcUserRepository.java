@@ -31,13 +31,7 @@ public class JdbcUserRepository {
     };
 
     private static final RowMapper<User> USER_ROW_MAPPER = (rs, rowNum) -> {
-        User user = new User();
-        user.setId(rs.getLong("id"));
-        user.setName(rs.getString("nome"));
-        user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password"));
-        
-        return user;
+        return User.builder().id(rs.getLong("id")).email(rs.getString("email")).password(rs.getString("password")) .build();
     };
 
     public List<Expense> getGastosBelowValue(BigDecimal value) {
@@ -63,6 +57,7 @@ public class JdbcUserRepository {
                 .param(gasto.getValue())
                 .query(GASTO_ROW_MAPPER)
                 .list();
+                
     }
 
     public Optional<User> findByEmail(String email) {
@@ -70,6 +65,6 @@ public class JdbcUserRepository {
         return jdbcClient.sql(sql).param(email).query(USER_ROW_MAPPER).optional();
     }
     public List<User> findAll(){
-        return jdbcClient.sql("SELECT * FROM users").query(User.class).list();
+        return jdbcClient.sql("c.name, c.email, c.password, p.description, p.value, p.date from users c inner join expense p on c.id = p.users_id").query(User.class).list();
     }
 }

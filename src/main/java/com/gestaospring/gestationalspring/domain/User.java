@@ -7,10 +7,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 @Table("users")
+@AllArgsConstructor
 public class User {
     @Id
     private Long id;
@@ -25,4 +29,8 @@ public class User {
     public User(){
         expenses = new HashSet<>();
     }
-}
+    
+  
+    
+    }
+
